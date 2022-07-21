@@ -28,3 +28,8 @@ val networkModule = module {
     single { provideRetrofit(get()) }
     factory { ResponseHandler() }
 }
+
+val movieDataSourceFactory = module {
+    factory { MoviesDataSourceFactory(get()) }
+    factory { MovieDataSource(get()) }
+}
