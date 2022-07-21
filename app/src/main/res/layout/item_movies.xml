@@ -37,6 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sp"
+                android:text="@{tvShow.name}"
                 app:layout_constraintStart_toEndOf="@+id/space"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
@@ -45,6 +46,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sp"
+                android:text="@{tvShow.network}"
                 app:layout_constraintStart_toEndOf="@+id/space"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvName"/>
@@ -53,6 +55,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sp"
+                android:text="@{tvShow.start_date}"
                 app:layout_constraintStart_toEndOf="@+id/space"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNetwork" />
@@ -61,6 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sp"
+                android:text="@{tvShow.status}"
                 app:layout_constraintStart_toEndOf="@+id/space"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDate" />
