@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-parcelize'
 }
 
 android {
@@ -61,5 +62,6 @@ dependencies {
     implementation "org.koin:koin-androidx-viewmodel:2.0.1"
     //adding paging
     implementation "android.arch.paging:runtime:1.0.1"
-
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 }
