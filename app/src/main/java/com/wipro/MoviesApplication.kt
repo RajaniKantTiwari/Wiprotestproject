@@ -1,6 +1,7 @@
 package com.wipro
 
 import android.app.Application
+import com.wipro.repository.movieDataSourceFactory
 import com.wipro.repository.networkModule
 import com.wipro.repository.repositoryModule
 import com.wipro.repository.viewModelModule
@@ -14,7 +15,7 @@ class MoviesApplication :Application() {
         startKoin {
             androidLogger()
             androidContext(this@MoviesApplication)
-            modules(listOf(networkModule, viewModelModule, repositoryModule))
+            modules(listOf(networkModule, viewModelModule, repositoryModule, movieDataSourceFactory))
         }
     }
 }

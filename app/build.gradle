@@ -59,5 +59,7 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-gson:2.9.0"
     implementation "com.squareup.okhttp3:logging-interceptor:4.8.1"
     implementation "org.koin:koin-androidx-viewmodel:2.0.1"
+    //adding paging
+    implementation "android.arch.paging:runtime:1.0.1"
 
 }
