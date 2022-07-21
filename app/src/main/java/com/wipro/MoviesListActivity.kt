@@ -3,6 +3,8 @@ package com.wipro
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.wipro.adapter.MoviesListAdapter
 import com.wipro.databinding.ActivityMoviesListBinding
 import com.wipro.viewmodel.MoviesListViewModel
@@ -29,5 +31,6 @@ class MoviesListActivity : AppCompatActivity() {
 
     private fun initializeRecyclerView(binding: ActivityMoviesListBinding) {
         binding.rvMoviesList.adapter = moviesListAdapter
+        binding.rvMoviesList.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
     }
 }
