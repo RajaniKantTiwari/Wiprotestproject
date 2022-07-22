@@ -1,6 +1,6 @@
 package com.wipro.repository
 
-import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import com.wipro.model.TvShow
 import com.wipro.networking.Status
@@ -9,34 +9,37 @@ import kotlinx.coroutines.launch
 
 class MovieDataSource(private val moviesRepository: MoviesRepository) :
     PageKeyedDataSource<Int, TvShow>() {
-
-    //we will start from the first page which is 1
-    private val FIRST_PAGE = 1
+    private val status = MutableLiveData<Status>()
+    private val firstPage = 1
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, TvShow>
     ) {
+        status.postValue(Status.LOADING)
         CoroutineScopeProvider.coroutineScopeIo().launch {
-            val moviesList = moviesRepository.getMoviesList(FIRST_PAGE)
+            val moviesList = moviesRepository.getMoviesList(firstPage)
             if (moviesList.status == Status.SUCCESS) {
                 moviesList.data?.tv_shows?.let {
-                    callback.onResult(it, null, FIRST_PAGE + 1)
-                    Log.e("IHaveCalled",""+it.size)
+                    callback.onResult(it, null, firstPage + 1)
+                    status.postValue(Status.SUCCESS)
                 }
+
             } else {
-                Log.e("ErrorWhenCalling",""+moviesList.message)
+                status.postValue(Status.ERROR)
             }
         }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, TvShow>) {
+        status.postValue(Status.LOADING)
         CoroutineScopeProvider.coroutineScopeIo().launch {
             val moviesList = moviesRepository.getMoviesList(params.key)
             if (moviesList.status == Status.SUCCESS) {
                 moviesList.data?.tv_shows?.let { callback.onResult(it, if (params.key > 1) params.key - 1 else null) }
+                status.postValue(Status.SUCCESS)
             } else {
-                Log.e("ErrorWhenCalling",""+moviesList.message)
+                status.postValue(Status.ERROR)
             }
         }
     }
@@ -44,29 +47,20 @@ class MovieDataSource(private val moviesRepository: MoviesRepository) :
 
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, TvShow>) {
+        status.postValue(Status.LOADING)
         CoroutineScopeProvider.coroutineScopeIo().launch {
             val moviesList = moviesRepository.getMoviesList(params.key)
             if (moviesList.status == Status.SUCCESS) {
                 moviesList.data?.tv_shows?.let { callback.onResult(it, if (moviesList.data.pages > moviesList.data.page) params.key + 1 else null) }
+                status.postValue(Status.SUCCESS)
             } else {
-                Log.e("ErrorWhenCalling",""+moviesList.message)
+                status.postValue(Status.ERROR)
             }
         }
     }
-
-//    private fun getMoviesList(
-//        callback: LoadCallback<Int, TvShow>, currentPage : Int,
-//        adjacentKey: Int?
-//    ) {
-//        CoroutineScopeProvider.coroutineScopeIo().launch {
-//            val moviesList = moviesRepository.getMoviesList(currentPage)
-//            if (moviesList.status == Status.SUCCESS) {
-//                moviesList.data?.tv_shows?.let { callback.onResult(it, adjacentKey) }
-//            } else {
-//                Log.e("ErrorWhenCalling",""+moviesList.message)
-//            }
-//        }
-//    }
+    fun getNetworkState(): MutableLiveData<Status> {
+        return status
+    }
 
 }
 
