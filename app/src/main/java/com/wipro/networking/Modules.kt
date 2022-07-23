@@ -1,7 +1,9 @@
 package com.wipro.repository
 
+import com.wipro.db.MovieDatabase
 import com.wipro.networking.*
 import com.wipro.viewmodel.MoviesListViewModel
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val viewModelModule = module {
@@ -11,7 +13,8 @@ val viewModelModule = module {
 }
 
 val appDataBase = module {
-
+    single { MovieDatabase.getInstance(get()) }
+    single { get<MovieDatabase>().moviesListDao() }
 }
 
 val repositoryModule = module {
@@ -31,5 +34,5 @@ val networkModule = module {
 
 val movieDataSourceFactory = module {
     factory { MoviesDataSourceFactory(get()) }
-    factory { MovieDataSource(get()) }
+    factory { MovieDataSource(get(), get()) }
 }

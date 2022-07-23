@@ -2,12 +2,13 @@ package com.wipro.repository
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import com.wipro.db.dao.MovieListDao
 import com.wipro.model.TvShow
 import com.wipro.networking.Status
 import com.wipro.util.CoroutineScopeProvider
 import kotlinx.coroutines.launch
 
-class MovieDataSource(private val moviesRepository: MoviesRepository) :
+class MovieDataSource(private val moviesRepository: MoviesRepository,movieListDao: MovieListDao) :
     PageKeyedDataSource<Int, TvShow>() {
     private val status = MutableLiveData<Status>()
     private val firstPage = 1
