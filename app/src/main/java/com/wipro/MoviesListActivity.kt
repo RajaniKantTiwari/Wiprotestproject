@@ -24,6 +24,7 @@ class MoviesListActivity : AppCompatActivity() {
         initializeRecyclerView(binding)
         submitDataIntoAdapter(binding)
         if(!NetworkUtils.isNetworkAvailable(this)){
+
             Toast.makeText(this,getString(R.string.you_are_offline),Toast.LENGTH_LONG).show()
         }
     }
