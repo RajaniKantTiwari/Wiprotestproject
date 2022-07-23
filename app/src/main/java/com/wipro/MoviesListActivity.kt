@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.wipro.adapter.MoviesListAdapter
 import com.wipro.databinding.ActivityMoviesListBinding
 import com.wipro.networking.Status
+import com.wipro.util.NetworkUtils
 import com.wipro.viewmodel.MoviesListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,6 +23,9 @@ class MoviesListActivity : AppCompatActivity() {
         setContentView(binding.root)
         initializeRecyclerView(binding)
         submitDataIntoAdapter(binding)
+        if(!NetworkUtils.isNetworkAvailable(this)){
+            Toast.makeText(this,getString(R.string.you_are_offline),Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun submitDataIntoAdapter(binding: ActivityMoviesListBinding) {

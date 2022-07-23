@@ -49,19 +49,21 @@ class MovieDataSource(
     }
 
     private suspend fun saveMovieListInDb(tvShowList: List<TvShow>) {
-        movieListDao.insertMovies(tvShowList.map {
-            TvShowEntity(
-                it.id,
-                it.country,
-                it.endDate,
-                it.imageUrl,
-                it.name,
-                it.network,
-                it.permalink,
-                it.startDate,
-                it.status
-            )
-        })
+        if (NetworkUtils.isNetworkAvailable(context)) {
+            movieListDao.insertMovies(tvShowList.map {
+                TvShowEntity(
+                    it.id,
+                    it.country,
+                    it.endDate,
+                    it.imageUrl,
+                    it.name,
+                    it.network,
+                    it.permalink,
+                    it.startDate,
+                    it.status
+                )
+            })
+        }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, TvShow>) {
@@ -83,12 +85,16 @@ class MovieDataSource(
             val moviesList = getMovieList(params.key, before)
             if (moviesList.status == Status.SUCCESS) {
                 moviesList.data?.tvShows?.let {
+                    saveMovieListInDb(it)
                     if (before) {
                         callback.onResult(it, if (params.key > 1) params.key - 1 else null)
                     } else {
+                        val pageNumber = if (moviesList.data.pages > moviesList.data.page) params.key + 1 else null
+                        Log.e("PageNumberAre",""+pageNumber+" "+moviesList.data.pages+" "+moviesList.data.page
+                        +" "+(params.key + 1))
                         callback.onResult(
                             it,
-                            if (moviesList.data.pages > moviesList.data.page) params.key + 1 else null
+                            pageNumber
                         )
                     }
                 }
@@ -107,8 +113,7 @@ class MovieDataSource(
         }
 
     private suspend fun getMovieListFromDb(pageNumber: Int, before: Boolean): Resource<MovieList> {
-        val data = movieListDao.getMoviesList(Constant.pageSize, (pageNumber-1)*Constant.pageSize)
-        Log.e("DataSizeAre", "" + data.size + " " + pageNumber + " " + (pageNumber-1)*Constant.pageSize)
+        val data = movieListDao.getMoviesList(Constant.pageSize, pageNumber-1)
         val tvShowList = data.map {
             TvShow(
                 it.id,

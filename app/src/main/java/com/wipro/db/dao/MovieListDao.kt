@@ -8,7 +8,7 @@ import com.wipro.db.entity.TvShowEntity
 @Dao
 interface MovieListDao {
     @WorkerThread
-    @Query("SELECT * FROM TvShowEntity LIMIT :pageSize OFFSET :pageIndex")
+    @Query("SELECT * FROM TvShowEntity LIMIT :pageSize OFFSET :pageIndex*:pageSize")
     suspend fun getMoviesList( pageSize: Int, pageIndex: Int): List<TvShowEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
