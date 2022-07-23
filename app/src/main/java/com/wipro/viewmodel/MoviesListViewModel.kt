@@ -7,6 +7,7 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.wipro.model.TvShow
 import com.wipro.repository.MoviesDataSourceFactory
+import com.wipro.util.Constant
 
 class MoviesListViewModel(movieDataSourceFactory: MoviesDataSourceFactory) : ViewModel() {
     var networkState = Transformations.switchMap(movieDataSourceFactory.itemLiveDataSource) { dataSource -> dataSource.getNetworkState() }
@@ -14,7 +15,7 @@ class MoviesListViewModel(movieDataSourceFactory: MoviesDataSourceFactory) : Vie
         LivePagedListBuilder(
             movieDataSourceFactory, PagedList.Config.Builder()
                 .setEnablePlaceholders(false)
-                .setPageSize(20)
+                .setPageSize(Constant.pageSize)
                 .build()
         ).build()
     //   fun getMoviesList() {

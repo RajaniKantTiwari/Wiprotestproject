@@ -2,6 +2,7 @@ package com.wipro
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,9 @@ class MoviesListActivity : AppCompatActivity() {
             if (it == Status.LOADING) {
                 binding.progressBar.visibility = View.VISIBLE
             } else {
+                if(it == Status.ERROR) {
+                    Toast.makeText(this,getString(R.string.something_went_wrong),Toast.LENGTH_LONG).show()
+                }
                 binding.progressBar.visibility = View.GONE
             }
         })

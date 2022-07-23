@@ -1,8 +1,13 @@
 package com.wipro.model
 
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class MovieList(
-    val page: Int,
-    val pages: Int,
-    val total: String,
-    val tv_shows: List<TvShow>
-)
+    @SerializedName("page") val page: Int,
+    @SerializedName("pages") val pages: Int,
+    @SerializedName("total") val total: String,
+    @SerializedName("tv_shows") val tvShows: List<TvShow>
+):  Parcelable
