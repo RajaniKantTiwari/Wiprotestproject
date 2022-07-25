@@ -11,5 +11,5 @@ interface MoviesApiService {
     suspend fun getMovies(@Query("page") page: Int): MovieList
 
     @GET("show-details")
-    suspend fun getMoviesDetails(@Query("q") tvShowId: String?): MoviesDetails
+    suspend fun getMoviesDetails(@Query("q") tvShowId: Int): MoviesDetails
 }

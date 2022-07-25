@@ -1,17 +1,18 @@
 package com.wipro.networking
 
 import com.wipro.db.MovieDatabase
-import com.wipro.repository.MovieDataSource
-import com.wipro.repository.MoviesDataSourceFactory
-import com.wipro.repository.MoviesRepository
-import com.wipro.repository.MoviesRepositoryImpl
+import com.wipro.repository.*
+import com.wipro.viewmodel.MovieDetailsViewModel
 import com.wipro.viewmodel.MoviesListViewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-  factory {
-    MoviesListViewModel(get())
-  }
+    factory {
+        MoviesListViewModel(get())
+    }
+    factory {
+        MovieDetailsViewModel(get())
+    }
 }
 
 val appDataBase = module {
@@ -21,7 +22,10 @@ val appDataBase = module {
 
 val repositoryModule = module {
     single<MoviesRepository>(createdAtStart = true) {
-       MoviesRepositoryImpl(get(),get())
+        MoviesRepositoryImpl(get(), get())
+    }
+    single<MovieDetailsRepository>(createdAtStart = true) {
+        MovieDetailsRepositoryImpl(get(), get())
     }
 }
 
@@ -36,5 +40,5 @@ val networkModule = module {
 
 val movieDataSourceFactory = module {
     factory { MoviesDataSourceFactory(get()) }
-    factory { MovieDataSource(get(), get(),get()) }
+    factory { MovieDataSource(get(), get(), get()) }
 }

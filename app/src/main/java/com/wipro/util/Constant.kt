@@ -1,5 +1,7 @@
 package com.wipro.util
 
 object Constant {
-    val pageSize = 20
+    const val pageSize = 20
+    const val ShowId = "ShowId"
+
 }

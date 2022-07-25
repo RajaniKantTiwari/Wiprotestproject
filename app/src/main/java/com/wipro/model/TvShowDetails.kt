@@ -5,7 +5,7 @@ data class TvShowDetails(
     val country: String,
     val description: String,
     val description_source: Any,
-    val end_date: Any,
+    val end_date: String,
     val episodes: List<Episode>,
     val genres: List<String>,
     val id: Int,

@@ -16,10 +16,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MoviesListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMoviesListBinding
     private val moviesListViewModel: MoviesListViewModel by viewModel()
-    private val moviesListAdapter = MoviesListAdapter()
+    private lateinit var moviesListAdapter : MoviesListAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMoviesListBinding.inflate(layoutInflater)
+        moviesListAdapter = MoviesListAdapter(this)
         setContentView(binding.root)
         initializeRecyclerView(binding)
         submitDataIntoAdapter(binding)
