@@ -1,24 +1,25 @@
 package com.wipro.viewmodel
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wipro.model.MoviesDetails
 import com.wipro.networking.Resource
+import com.wipro.networking.Status
 import com.wipro.repository.MovieDetailsRepository
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class MovieDetailsViewModel(private val movieDetailsRepository: MovieDetailsRepository) : ViewModel() {
     val movieDetais = MutableLiveData<Resource<MoviesDetails>>()
     fun getMovieDetails(movieId: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val movieDetails: Resource<MoviesDetails> =movieDetailsRepository.getMovieDetails(movieId)
-            movieDetais.postValue(movieDetails)
-            Log.e("MovieDetailsAre",""+movieDetails.data.toString() + " "+movieDetails.status)
-
+        viewModelScope.launch {
+            movieDetailsRepository.getMovieDetails(movieId).catch { error->
+                movieDetais.postValue(Resource(Status.ERROR,null,error.message))
+            }.collect {
+                movieDetais.postValue(Resource(Status.SUCCESS,it,null))
+            }
         }
     }
 
